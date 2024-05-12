@@ -1,11 +1,7 @@
 using System.Text;
-using AuthPracticeProject;
 using AuthPracticeProject.Constants;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.VisualBasic;
-using Constants = Microsoft.VisualBasic.Constants;
 
 var builder = WebApplication.CreateBuilder();
 
@@ -22,6 +18,22 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 		};
 	});
 
+builder.Services.AddAuthorization(options =>
+{
+	options.AddPolicy("AdminOnly", policy =>
+		policy.RequireRole("Admin"));
+	options.AddPolicy("UsersOnly", policy =>
+		policy.RequireRole("User")
+			.RequireAssertion(context =>
+			{
+				var ageClaim = context.User.FindFirst("age");
+				if (ageClaim != null && int.TryParse(ageClaim.Value, out int age))
+				{
+					return age > 18;
+				}
+				return false;
+			}));
+});
 builder.Services.AddAuthorization();
 
 builder.Services.AddControllers();
