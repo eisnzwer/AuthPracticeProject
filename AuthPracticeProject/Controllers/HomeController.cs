@@ -18,6 +18,7 @@ namespace AuthPracticeProject.Controllers
 		/// <summary>
 		/// Основной контроллер для всех пользователей
 		/// </summary>
+		/// <response code = "200"> Успешный доступ </response>
 		[HttpGet("Default")]
 		[ProducesResponseType(200, Type = typeof(string))]
 		public IActionResult Index()
@@ -28,6 +29,9 @@ namespace AuthPracticeProject.Controllers
 		/// <summary>
 		/// Защищенный метод для администраторов.
 		/// </summary>
+		/// <response code = "200"> Успешный доступ </response>
+		/// <response code = "401"> Администратор не авторизован </response>
+		/// <response code = "403"> Недостаточные права </response>
 		[HttpGet("Secured/Admin")]
 		[Authorize(Policy = "AdminOnly")]
 		[ProducesResponseType(200, Type = typeof(string))]
@@ -39,6 +43,9 @@ namespace AuthPracticeProject.Controllers
 		/// <summary>
 		/// Защищенный метод для пользователей старше 18 лет
 		/// </summary>
+		/// <response code = "200"> Успешный доступ </response>
+		/// <response code = "401"> Пользователь не авторизован </response>
+		/// <response code = "403"> Недостаточные права </response>
 		[HttpGet("Secured/Users")]
 		[Authorize(Policy = "UsersOnly")]
 		[ProducesResponseType(200, Type = typeof(string))]
