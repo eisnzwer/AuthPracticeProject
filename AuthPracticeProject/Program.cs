@@ -23,9 +23,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("AdminOnly", policy =>
-        policy.RequireRole("Admin"));
+        policy.RequireRole("Admin", "ADMIN"));
     options.AddPolicy("UsersOnly", policy =>
-        policy.RequireRole("User")
+        policy.RequireRole("User", "USER")
             .RequireAssertion(context =>
             {
                 var ageClaim = context.User.FindFirst("age");
@@ -55,7 +55,7 @@ builder.Services.AddSwaggerGen(options =>
         BearerFormat = "JWT",
         Name = "JWT Authentication",
         In = ParameterLocation.Header,
-        Type = SecuritySchemeType.Http,
+        Type = SecuritySchemeType.Http, 
         Scheme = JwtBearerDefaults.AuthenticationScheme,
         Description = "Put **_ONLY_** your JWT Bearer token on textbox below!",
 
