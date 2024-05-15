@@ -1,5 +1,4 @@
 using System.Text;
-using AuthPracticeProject.Models;
 using Microsoft.IdentityModel.Tokens;
 
 namespace AuthPracticeProject.Constants;

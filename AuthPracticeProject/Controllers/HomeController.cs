@@ -71,13 +71,13 @@ namespace AuthPracticeProject.Controllers
     /// <response code = "200"> Успешный доступ </response>
     [HttpPost("Login")]
     [ProducesResponseType(200, Type = typeof(string))]
-    public IActionResult Login([FromBody] User? user)
+    public IActionResult Login([FromBody] User user)
     {
       var claims = new List<Claim>
       {
         new Claim(ClaimTypes.Name, user.Login),
         new Claim(ClaimTypes.Role, user.Roles.ToString()),
-        new Claim("age", user.Age.ToString())
+        new Claim("age", user.Age.ToString() ?? string.Empty)
       };
       
       var jwt = new JwtSecurityToken(
